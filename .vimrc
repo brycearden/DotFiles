@@ -1,94 +1,132 @@
-set nocompatible              " be iMproved
-
-" Package Management {{{
-filetype off                  " required
-
-" set the runtime path to include Vundle and initialize
-set rtp+=~/.vim/bundle/Vundle.vim
+set nocompatible
+filetype off
+set rtp+=~/.vim/bundle/Vundle.vim/
 call vundle#begin()
-" alternatively, pass a path where Vundle should install plugins
-"call vundle#begin('~/some/path/here')
 
-" let Vundle manage Vundle, required
-Plugin 'gmarik/Vundle.vim'
+" let vundle manage vundle
+Plugin 'VundleVim/Vundle.vim'
 
-Plugin 'Valloric/YouCompleteMe'
+Plugin 'chriskempson/base16-vim'
+Plugin 'scrooloose/nerdtree'
+Plugin 'Valloric/YouCompleteMe' " useful for vim autocomplete
+Plugin 'ryanoasis/vim-devicons'
+" Plugin 'Shougo/deoplete.nvim'
 Plugin 'scrooloose/syntastic'
+Plugin 'christoomey/vim-tmux-navigator'
+" Plugin 'benekastah/neomake'
 Plugin 'kien/ctrlp.vim'
-"Plugin 'kevinw/pyflakes-vim'
+" Plugin 'flazz/vim-colorschemes'
+" Plugin 'benmills/vimux'
+Plugin 'tpope/vim-commentary'
+Plugin 'rking/ag.vim'
 Plugin 'Raimondi/delimitMate'
+Plugin 'Yggdroot/indentLine'
 Plugin 'tpope/vim-surround'
-Plugin 'bling/vim-airline'
-Plugin 'yueyoum/vim-linemovement'
+Plugin 'tpope/vim-repeat'
+Plugin 'vim-airline/vim-airline'
+Plugin 'vim-airline/vim-airline-themes'
+Plugin 'tpope/vim-fugitive'
 Plugin 'hynek/vim-python-pep8-indent'
 Plugin 'majutsushi/tagbar'
-
-Plugin 'Glench/Vim-Jinja2-Syntax'
-
+Plugin 'vimwiki/vimwiki'
+Plugin 'SirVer/ultisnips'
+Plugin 'honza/vim-snippets'
 " Better starting screen
 Plugin 'mhinz/vim-startify'
+Plugin 'sickill/vim-pasta' " context-aware pasting
+Plugin 'gorodinskiy/vim-coloresque'
+Plugin 'tmux-plugins/vim-tmux-focus-events'
 
-" Syntax hilighting for less
-" TODO this stuff takes FOREVER to startup
-"Plugin 'groenewege/vim-less'
-"Plugin 'skammer/vim-css-color'
-"Plugin 'hail2u/vim-css3-syntax'
-
-" Session manager
-Plugin 'xolox/vim-session'
-
-" Vim notes
-Plugin 'xolox/vim-notes'
-Plugin 'xolox/vim-misc'
-
-" Used for javascript stuff
-Plugin 'marijnh/tern_for_vim'
-Plugin 'jelera/vim-javascript-syntax'
-Plugin 'pangloss/vim-javascript'
-Plugin 'nathanaelkane/vim-indent-guides'
+" " Session manager
+" Plug 'xolox/vim-session'
 
 " Used for HTML/CSS
-Plugin 'mattn/emmet-vim'
-
-call vundle#end()            " required
-filetype plugin indent on    " required
-" To ignore plugin indent changes, instead use:
-"filetype plugin on
-"
-" Brief help
-" :PluginList          - list configured plugins
-" :PluginInstall(!)    - install (update) plugins
-" :PluginSearch(!) foo - search (or refresh cache first) for foo
-" :PluginClean(!)      - confirm (or auto-approve) removal of unused plugins
-"
-" see :h vundle for more details or wiki for FAQ
-
-set rtp+=~/.vim/after/hack.vim
-" }}}
+" Plug 'mattn/emmet-vim'
+call vundle#end()
 
 " Package Configuration {{{
+" {{{ CtrlP
+	let g:ctrlp_map='<leader>p'
+	let g:ctrlp_working_path_mode='ra'
+	" CtrlP ignore patterns
+	let g:ctrlp_custom_ignore = {
+				\ 'dir': '\.git$\|node_modules$\|bower_components$\|\.hg$\|\.svn$',
+				\ 'file': '\.exe$\|\.so$|\.out$'
+				\ }
+	" only show files that are not ignored by git
+	let g:ctrlp_user_command = ['.git/', 'git --git-dir=%s/.git ls-files -oc --exclude-standard']
+
+	" search the nearest ancestor that contains .git, .hg, .svn
+	let g:ctrlp_working_path_mode = 2
+" }}}
+" {{{ NERDTree
+	" close NERDTree after a file is opened
+	let g:NERDTreeQuitOnOpen=0
+	" show hidden files
+	let NERDTreeShowHidden=1
+	let g:NERDTreeDirArrows=1
+	let g:NERDTreeDirArrowExpandable='▸'
+	let g:NERDTreeDirArrowCollapsible='▾'
+	" set NERDTree toggle
+	map <leader>nt :NERDTreeToggle<CR>
+	" expand to the path of the file in the current buffer
+	map <leader>y :NERDTreeFind<CR>
+" }}}
 "	linemovement {{{
-		let g:linemovement_up="<A-Up>"
-		let g:linemovement_down="<A-Down>"
+		" let g:linemovement_up="<A-Up>"
+		" let g:linemovement_down="<A-Down>"
 "	}}}
+"   {{{ Deoplete
+		let g:deoplete#enable_at_startup=1
+"   }}}
 "	YouCompleteMe {{{
         let g:ycm_autoclose_preview_window_after_completion=1
 
         " Must press ctrl and an arrow key to move up and down completion
         " list
-        let g:ycm_key_list_select_completion=['<TAB>', '<C-Down>']
-        let g:ycm_key_list_previous_completion=['<S-TAB>', '<C_Up>']
+        let g:ycm_key_list_select_completion=['<C-n>', '<C-Down>']
+        let g:ycm_key_list_previous_completion=['<C-p>', '<C_Up>']
 
 		let g:ycm_global_ycm_extra_conf='~/.vim/bundle/YouCompleteMe/third_party/ycmd/cpp/ycm/.ycm_extra_conf.py'
 		let g:ycm_show_diagnostics_ui = 0
 		"let g:ycm_auto_trigger = 0
 "	}}}
 "   Syntastic {{{
-        let g:syntastic_mode_map={'mode':'active','active_filetypes':[],'passive_filetypes':[]}
+        " let g:syntastic_mode_map={'mode':'active','active_filetypes':[],'passive_filetypes':[]}
+		" let g:syntastic_error_symbol='✗'
+		" let g:syntastic_warning_symbol='⚠'
 "   }}}
+"	ultisnips {{{
+		let g:UltiSnipsExpandTrigger = "<tab>"
+		let g:UltiSnipsJumpForwardTrigger = "<tab>"
+		let g:UltiSnipsJumpBackwardTrigger = "<s-tab>"
+		let g:UltiSnipsSnippetDirectories = ["UltiSnips", "~/.dotfiles/config/nvim/UltiSnips"]
+        let g:ultisnips_python_style = "google"
+"	}}}
+"	Vim Markdown {{{
+        " inline syntax highlighting in markdown
+        let g:markdown_fenced_languages = ['css', 'javascript', 'js=javascript', 'json=javascript', 'stylus', 'html', 'bash=sh', 'java', 'ruby', 'python', 'c']
+        " set text width to 80 chars for markdown files
+        " au BufRead, BufNewFile *.md setlocal textwidth=80
+"	}}}
 "   Airline (better status bar) {{{
-		let g:airline#extensions#tabline#enabled=1
+		let g:airline#extensions#tabline#enabled = 2
+		let g:airline#extensions#tabline#fnamemod = ':t'
+		let g:airline#extensions#tabline#left_sep = ' '
+		let g:airline#extensions#tabline#left_alt_sep = '|'
+		let g:airline#extensions#tabline#right_sep = ' '
+		let g:airline#extensions#tabline#right_alt_sep = '|'
+		let g:airline_left_sep = ' '
+		let g:airline_left_alt_sep = '|'
+		let g:airline_right_sep = ' '
+		let g:airline_right_alt_sep = '|'
+		let g:airline_theme= 'base16'
+		let g:airline_left_sep=''
 		let g:airline_powerline_fonts = 1
+		if !exists('g:airline_symbols')
+			let g:airline_symbols = {}
+		endif
+		let g:airline_symbols.space="\ua0"
 "   }}}
 "	Notes {{{
 		let g:notes_directories = ['~/Documents/Notes']
@@ -113,17 +151,49 @@ set rtp+=~/.vim/after/hack.vim
 			\ '',
 			\ '']
 "	}}}
-"   Auto Format {{{
-		let g:formatdef_yapf = '"python yapf"'
-		let g:formatters_python = ['yapf']
-"   }}}
+" {{{ vimwiki
+
+		let g:vimwiki_list = [{'path': '~/code/Website/_posts',
+					\ 'syntax' : 'markdown','ext' : '.md' }]
+					" \ 'path_html': '~/Documents/vimwiki_html/'}]
+
+		let g:vimwiki_table_mappings = 0
+		let g:vimwiki_global_ext=0
+		let g:vimwiki_ext2syntax={}
+		augroup filetypedetect
+			au! BufRead,BufNewFile */vimwiki/*        set filetype=vimwiki
+		augroup END
+" }}}"
+" Multiple Cursors {{{
+	" Default mapping
+	" let g:multi_cursor_next_key='<leader>n'
+	" let g:multi_cursor_prev_key='<leader>N'
+	" let g:multi_cursor_skip_key='<leader>x'
+	" let g:multi_cursor_quit_key='<Esc>'
+" }}}
+" Ctags {{{
+"   Recursively search up to home directory for tags files
+    set tags=./tags;~/code
+" }}}
+" Vim-tmux-navigator {{{
+    let g:tmux_navigator_no_mappings = 1
+
+    nnoremap <silent> <c-h> :TmuxNavigateLeft<cr>
+    nnoremap <silent> <c-j> :TmuxNavigateDown<cr>
+    nnoremap <silent> <c-k> :TmuxNavigateUp<cr>
+    nnoremap <silent> <c-l> :TmuxNavigateRight<cr>
+    nnoremap <silent> <c-\> :TmuxNavigatePrevious<cr>
+    " Autosave when leaving a vim split
+    " let g:tmux_navigator_save_on_switch = 1
+" }}}
 " }}}
 
 " General {{{
 filetype plugin on	" Allows use of filetype plugins
 set encoding=utf-8	" Sets encoding to utf-8
 let mapleader=","	" Changes leader key from \ to ,
-set autochdir		" automatically sets the cwd to the file being edited
+" set autochdir		" automatically sets the cwd to the file being edited
+set magic "Set magic on for regex
 
 " Makes it easier to use 'O' without waiting
 "set timeout timeoutlen=1000 ttimeoutlen=100
@@ -135,23 +205,52 @@ let g:tex_flavor = "latex"
 
 " Colors {{{
 syntax enable
+" set the colorscheme
+let s:uname = system("echo -n \"$(uname)\"")
+if !v:shell_error && s:uname == "Linux"
+    " let g:base16_shell_path='~/.dotfiles/.config/base-16-shell'
+    let base16colorspace="256"
+endif
+
 set t_Co=256
-"colorscheme wombat256mod " set default colorscheme
-colorscheme baycomb " set default colorscheme
-set background=dark " set background to dark
+" set background=dark
+" colorscheme base16-eighties
+" let g:base16_shell_path=.doftiles/.config/base16-builder/output/shell/
+" let base16colorspace="256" " Access colors present in 256 colorspace
+" set t_Co=256
+
+" colorscheme baycomb  " set default colorscheme
+" colorscheme wombat256mod " set default colorscheme
+" set background=dark " set background to dark
+
+execute "set background=".$BACKGROUND
+execute "colorscheme ".$THEME
+
+if (has("gui_running"))
+    set guioptions=egmrt
+    set background=light
+    colorscheme solarized
+    let g:airline_left_sep=''
+    let g:airline_right_sep=''
+    let g:airline_powerline_fonts=0
+    let g:airline_theme='solarized'
+endif
 
 if &term =~ '256color'
   " disable Background Color Erase (BCE) so that color schemes
   " render properly when inside 256-color tmux and GNU screen.
   " see also http://snk.tuxfamily.org/log/vim-256color-bce.html
-  set t_ut=
+ set t_ut=
 endif
 " }}}
 
 " Spaces and Tabs {{{
 filetype indent on	" load filetype-specific indent files
+" set shiftwidth=4	" Number of spaces for auto indenting also effects reindent operations (<< and >>)
 set shiftwidth=4	" Number of spaces for auto indenting also effects reindent operations (<< and >>)
 set tabstop=4		" A tab is 4 spaces"
+set expandtab		" Whenever a tab is pressed, insert spaces instead
+" set softtabstop=4	" number of spaces in tab when editing
 set softtabstop=4	" number of spaces in tab when editing
 set smarttab		" insert tabs on the start of a line according to
 					"    shiftwidth, not tab stop
@@ -161,9 +260,12 @@ set listchars=tab:>.,trail:.,extends:#,nbsp:.,eol:& " set the listchars to be us
 
 " UI Config {{{
 set wrap			" Lines wrap
+set shell=$SHELL
+set cmdheight=1
 set linebreak		" only wrap at a character in breakat
+set number
+set relativenumber
 set nolist			" list diables linebreak
-set textwidth=0		" Don't insert linebreaks for wrap
 set wrapmargin=0	" Don't insert linebreaks for wrap
 set mouse=a			" Can use mouse for most actions
 set pastetoggle=<F2> " Allow toggling paste mode with F2
@@ -171,17 +273,22 @@ set hidden			" Buffers become hidden when abandoned
 set laststatus=2	" Always show status bar
 set showcmd 		" shows command in bottom right
 set wildmenu		" visual autocomplete for command menu
+set wildmode=list:longest " complete files like a shell
 set wildignore=*.swp,*.bak,*.pyc,*.class,*.o " ignore some files in wild menu
-set lazyredraw		" only redraws when it needs to
+" set lazyredraw		" only redraws when it needs to */
 set showmatch		" highlight matching [{()}]
 set backspace=2 	" can backspace through anything
 set autoread		" automatically updates file that has been changed outside of buffer
 set scrolloff=2		" Always shows at least 2 lines of context when scrolling
+set textwidth=0    " wrap to 80 chars on formatting call
+" set formatoptions-=ta " format the code as you are writing it
 
 " Disable backup and swap files
 set nobackup
 set nowritebackup
 set noswapfile
+set backupdir=~/.vim-tmp,~/.tmp,~/tmp,/var/tmp,/tmp
+set directory=~/.vim-tmp,~/.tmp,~/tmp,/var/tmp,/tmp
 
 " Remember info about open buffers on close
 set viminfo^=%
@@ -200,22 +307,57 @@ vnoremap <silent> * :call VisualSelection('f')<CR>
 " Folding {{{
 " If you have trouble with syntax highlighting try <Ctrl-l>
 set foldenable			" enable folding
-set foldlevelstart=10	" open most folds by default
+set foldlevelstart=10   " open most folds by default
 set foldnestmax=10		" 10 nested fold max
 set foldmethod=indent
 
-autocmd BufWinLeave *.* mkview
-autocmd BufWinEnter *.* if (expand("<afile>")) != "config.py" | silent loadview | endif
+" autocmd BufWinLeave *.* mkview
+" autocmd BufWinEnter *.* if (expand("<afile>")) != "config.py" | silent loadview | endif
 " TODO set a folding method for different filetypes using autocmds
 " }}}
 
 " Autogroups {{{
+"
+" file type specific settings
+if has('autocmd') && !exists('autocommands_loaded')
+    let autocommands_loaded = 1
+    "autocmd FileType yaml setlocal ts=2 sts=2 sw=2 expandtab
+    "autocmd FileType make setlocal ts=8 sts=8 sw=8 noexpandtab
+    "autocmd FileType ruby setlocal ts=2 sts=2 sw=2 expandtab
+    "autocmd FileType html setlocal ts=4 sts=4 sw=4 noexpandtab indentkeys-=*<return>
+    "autocmd FileType jade setlocal ts=2 sts=2 sw=2 noexpandtab
+    "autocmd FileType *.md.js :call SyntasticReset<cr>
+    "autocmd FileType markdown,textile setlocal textwidth=0 wrapmargin=0 wrap spell
+    "autocmd FileType .xml exe ":silent %!xmllint --format --recover - 2>/dev/null"
+    "autocmd FileType crontab setlocal nobackup nowritebackup
+    ""autocmd WinEnter * setlocal cursorline
+    ""autocmd WinLeave * setlocal nocursorline
 
+    " automatically resize panes on resize
+    autocmd VimResized * exe 'normal! \<c-w>='
+    autocmd BufWritePost .vimrc source %
+    autocmd BufWritePost .vimrc.local source %
+    " save all files on focus lost, ignoring warnings about untitled buffers
+    autocmd FocusLost * silent! wa
+
+    autocmd BufNewFile,BufRead *.ejs set filetype=html
+    autocmd BufNewFile,BufRead *.ino set filetype=c
+    autocmd BufNewFile,BufRead *.svg set filetype=xml
+
+    " make quickfix windows take all the lower section of the screen when there
+    " are multiple windows open
+    autocmd FileType qf wincmd J
+
+
+
+    " autocmd! BufEnter * call ApplyLocalSettings(expand('<afile>:p:h'))
+
+endif
 augroup allgroup
 	autocmd!
 	autocmd BufWritePre * :call DeleteTrailingWS()
 	autocmd BufEnter * AirlineRefresh
-	autocmd BufEnter * :lchdir %:p:h
+	" autocmd BufEnter * :lchdir %:p:h
 
 	" Return to last edit position when opening files
 	autocmd BufReadPost *
@@ -236,16 +378,55 @@ au BufNewFile,BufRead *.pn set filetype=potion
 
 " Custom Functions {{{
 
+" disable all of vim beeps and flashes
+set noerrorbells visualbell t_vb=
+if has('autocmd')
+  autocmd GUIEnter * set visualbell t_vb=
+endif
+
+" recursively search up from dirname, sourcing all .vimrc.local files along the way
+function! ApplyLocalSettings(dirname)
+    " convert windows paths to unix style
+    let l:curDir = substitute(a:dirname, '\\', '/', 'g')
+
+    " walk to the top of the dir tree
+    let l:parentDir = strpart(l:curDir, 0, strridx(l:curDir, '/'))
+    if isdirectory(l:parentDir)
+        call ApplyLocalSettings(l:parentDir)
+    endif
+
+    " now walk back down the path and source .vimsettings as you find them.
+    " child directories can inherit from their parents
+    let l:settingsFile = a:dirname . '/.vimrc.local'
+    if filereadable(l:settingsFile)
+        exec ':source' . l:settingsFile
+    endif
+endfunction
+
 func! DeleteTrailingWS()
     exe "normal mz"
     %s/\s\+$//ge
     exe "normal `z"
 endfunc
 
+" function! LoadCscope()
+"   let db = findfile("cscope.out", ".;")
+"   if (!empty(db))
+"     let path = strpart(db, 0, match(db, "/cscope.out$"))
+"     set nocscopeverbose " suppress 'duplicate connection' error
+"     exe "cs add " . db . " " . path
+"     set cscopeverbose
+"   endif
+" endfunction
+" au BufEnter /* call LoadCscope()
+
+function! DoubleSpaces()
+    exec ':%s/^\(\(  \)\+\)/\1\1'
+endfunc
 " toggle between number and relativenumber and no number
 function! ToggleNumber()
 	if !exists("b:number_status")
-		let b:number_status = 2
+		let b:number_status = 1
 	endif
 
 	if (b:number_status == 1)
@@ -267,6 +448,15 @@ function! CmdLine(str)
 	exe "menu Foo.Bar :" . a:str
 	emenu Foo.Bar
 	unmenu Foo
+endfunction
+
+"slow multiple_cursors &amp; YCM
+function! Multiple_cursors_before()
+    let g:ycm_auto_trigger = 0
+endfunction
+
+function! Multiple_cursors_after()
+    let g:ycm_auto_trigger = 1
 endfunction
 
 function! VisualSelection(direction) range
@@ -297,15 +487,21 @@ endfunction
 " Toggle Tagbar
 nmap T :TagbarToggle<CR>
 
-" Allow easy window switching
-nmap <silent> <S-Up> :wincmd k<CR>
-nmap <silent> <S-Down> :wincmd j<CR>
-nmap <silent> <S-Left> :wincmd h<CR>
-nmap <silent> <S-Right> :wincmd l<CR>
+" Smart way to move between windows
+" map <C-j> <C-W>j
+" map <C-k> <C-W>k
+" map <C-h> <C-W>h
+" map <C-l> <C-W>l
 
-" Allow using ctl + arrow up or down to move between folds
-nmap <C-Up> zk
-nmap <C-Down> zj
+" smart way to rezise windows
+" nnoremap <C-H> :vertical resize -5<cr>
+" nnoremap <C-J> :resize +5<cr>
+" nnoremap <C-K> :resize -5<cr>
+" nnoremap <C-L> :vertical resize +5<cr>
+
+" easier commands to open splits, keeps things similar to tmux
+" nnoremap <leader>- :sp
+" nnoremap <leader>| :vsp
 
 " move vertically by visual line not real line
 nnoremap j gj
@@ -316,14 +512,20 @@ imap <End> <C-o>g<End>
 imap <Home> <C-o>g<Home>
 
 " Arrow keys are for wimps
-nnoremap <Down> <nop>
-nnoremap <Up> <nop>
-nnoremap <Left> <nop>
-nnoremap <right> <nop>
-imap <Down> <nop>
-imap <Up> <nop>
-imap <Left> <nop>
-imap <right> <nop>
+" nnoremap <Down> <nop>
+" nnoremap <Up> <nop>
+" nnoremap <Left> <nop>
+" nnoremap <right> <nop>
+" imap <Down> <nop>
+" imap <Up> <nop>
+" imap <Left> <nop>
+" imap <right> <nop>
+
+" Fugitive Shortcuts
+nmap <silent> <leader>gs :Gstatus<cr>
+nmap <leader>ge :Gedit<cr>
+nmap <silent><leader>gr :Gread<cr>
+nmap <silent><leader>gb :Gblame<cr>
 
 " highlight last inserted text
 nnoremap gV `[v`]
@@ -378,9 +580,12 @@ nnoremap <leader>k :bn<CR>
 " Close the current buffer
 noremap <leader>bd :bp<bar>sp<bar>bn<bar>bd<CR>
 
+" change spacing and indendation
+nnoremap <leader>2s :call DoubleSpaces()<CR>
+
 " Toggle preferences
 nnoremap <leader>c :call ToggleNumber()<CR>
-nnoremap <leader>x :SyntasticToggleMode<CR>
+nnoremap <leader>sx :SyntasticToggleMode<CR>
 nnoremap <leader>z :set list!<CR>
 
 " Spell check stuff
@@ -389,8 +594,13 @@ nnoremap <leader>sn ]s
 nnoremap <leader>sp [s
 nnoremap <leader>se z=
 
-" Quick save command
-nnoremap <leader>w :call DeleteTrailingWS()<CR>:write<CR>
+nnoremap <leader><leader>p :CtrlPMRU<CR>
+
+" silver searcher
+nnoremap <leader>a :Ag
+
+" shortcut to open NERDTree
+nnoremap <leader>nt :NERDTreeToggle<CR>
 
 " Quick quit command
 nnoremap <leader>q :quit<CR>
@@ -402,14 +612,12 @@ vnoremap <silent><leader>r :call VisualSelection('replace')<CR>
 nnoremap <leader>ms :SaveSession<CR>
 " }}}
 
-" Allow xterm keys in tmux
-if &term =~ '^screen'
-	execute "set <xUp>=\e[1;*A"
-	execute "set <xDown>=\e[1;*B"
-	execute "set <xRight>=\e[1;*C"
-	execute "set <xLeft>=\e[1;*D"
+" This is a (hopefully) temporary workaround for neovim#2048.
+if has('nvim')
+    nmap <bs> :<c-u>TmuxNavigateLeft<cr>
 endif
 
 " Last 5 lines are modelines
 set modelines=5
 " vim:foldmethod=marker:foldlevel=0
+call ApplyLocalSettings(expand('.'))

@@ -16,7 +16,7 @@ print_padded() {
     # status will then be printed such that the distance between brackets [] will be a
     # multiple of 10 and there will always be at least 1 space on either end of the
     # status. There are probably better ways to make this look good for longer statuses
-    # but this works for what I want for now. TODO (phillip) I should write a better
+    # but this works for what I want for now. TODO (bryce) I should write a better
     # function for printing statuses to the command line.
 	local len=${#2}
 
