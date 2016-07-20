@@ -42,8 +42,8 @@ if [ -f /etc/bash.bashrc ]; then
 	. /etc/bash.bashrc
 fi
 
-if [ -f "/etc/DIR_COLORS" ]; then
-    eval $(dircolors -b /etc/DIR_COLORS)
+if [ -f "~/.dircolors" ]; then
+    eval $(dircolors ~/.dircolors)
 fi
 
 # enable programmable completion features
@@ -61,8 +61,8 @@ fi
 # Reset PROMPT COMMAND so sourcing this file is idempotent
 PROMPT_COMMAND=""
 PS1="\n${HC}[ ${RS}${FRED}\u@\h ${RS}${HC}] ${HC}${FGRN}\w${RS}\n${HC}${FRED}\$${RS} "
-if [ -f  ~/liquidprompt ]; then
-    source ~/liquidprompt
+if [ -f  ~/DotFiles/liquidprompt/liquidprompt ]; then
+    source ~/DotFiles/liquidprompt/liquidprompt
 fi
 
 if [ -e "$HOME/DotFiles/z/z.sh" ]; then
@@ -74,10 +74,6 @@ fi
 # }}}
 
 # Source custom definitions {{{
-
-if [ -s ~/.bashrc.khan ]; then
-    . ~/.bashrc.khan
-fi
 
 if [ -f ~/.bash_aliases ]; then
 	. ~/.bash_aliases

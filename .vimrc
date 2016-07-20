@@ -7,15 +7,15 @@ call vundle#begin()
 Plugin 'VundleVim/Vundle.vim'
 
 Plugin 'chriskempson/base16-vim'
-Plugin 'scrooloose/nerdtree'
+" Plugin 'scrooloose/nerdtree'
 Plugin 'Valloric/YouCompleteMe' " useful for vim autocomplete
 Plugin 'ryanoasis/vim-devicons'
 " Plugin 'Shougo/deoplete.nvim'
-Plugin 'scrooloose/syntastic'
+" Plugin 'scrooloose/syntastic'
 Plugin 'christoomey/vim-tmux-navigator'
 " Plugin 'benekastah/neomake'
 Plugin 'kien/ctrlp.vim'
-" Plugin 'flazz/vim-colorschemes'
+Plugin 'flazz/vim-colorschemes'
 " Plugin 'benmills/vimux'
 Plugin 'tpope/vim-commentary'
 Plugin 'rking/ag.vim'
@@ -205,13 +205,6 @@ let g:tex_flavor = "latex"
 
 " Colors {{{
 syntax enable
-" set the colorscheme
-let s:uname = system("echo -n \"$(uname)\"")
-if !v:shell_error && s:uname == "Linux"
-    " let g:base16_shell_path='~/.dotfiles/.config/base-16-shell'
-    let base16colorspace="256"
-endif
-
 set t_Co=256
 " set background=dark
 " colorscheme base16-eighties
@@ -219,12 +212,12 @@ set t_Co=256
 " let base16colorspace="256" " Access colors present in 256 colorspace
 " set t_Co=256
 
-" colorscheme baycomb  " set default colorscheme
+colorscheme solarized  " set default colorscheme
 " colorscheme wombat256mod " set default colorscheme
-" set background=dark " set background to dark
+set background=dark " set background to dark
 
-execute "set background=".$BACKGROUND
-execute "colorscheme ".$THEME
+" execute "set background=".$BACKGROUND
+" execute "colorscheme ".$THEME
 
 if (has("gui_running"))
     set guioptions=egmrt

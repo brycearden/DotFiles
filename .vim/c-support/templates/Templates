@@ -2,13 +2,13 @@
 §  User Macros
 § ==========================================================
 
-SetMacro( 'AUTHOR',      'Phillip' )
+SetMacro( 'AUTHOR',      'Bryce' )
 SetMacro( 'AUTHORREF',   '' )
-SetMacro( 'COMPANY',     '' )
+SetMacro( 'COMPANY',     'Centaur Technologies' )
 SetMacro( 'COPYRIGHT',   '' )
-SetMacro( 'EMAIL',       'philliplemons512@gmail.com' )
+SetMacro( 'EMAIL',       'bryce@centtech.com' )
 SetMacro( 'LICENSE',     '' )
-SetMacro( 'ORGANIZATION','' )
+SetMacro( 'ORGANIZATION','Design Verification' )
 
 SetStyle( 'C' )
 

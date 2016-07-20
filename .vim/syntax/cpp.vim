@@ -1,2 +1,2 @@
-colo baycomb
+colo solarized
 set background=dark

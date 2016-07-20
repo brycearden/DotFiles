@@ -2,7 +2,7 @@
 editor = vim
 merge = meld
 diff = meld
-username = phillip <philliplemons512@gmail.com>
+username = bryce <arden.bryce@gmail.com>
 
 [extensions]
 hgk =

@@ -1,16 +1,38 @@
 #!/bin/bash
+# reload zsh config
+alias reload!='source ~/.bashrc'
+
+# Detect which `ls` flavor is in use
+if ls --color > /dev/null 2>&1; then # GNU `ls`
+    colorflag="--color"
+else # OS X `ls`
+    colorflag="-G"
+fi
+
+# Filesystem aliases
+alias ..='cd ..'
+alias ...='cd ../..'
+alias ....="cd ../../.."
+alias .....="cd ../../../.."
+
+alias l="ls -lah ${colorflag}"
+alias la="ls -AF ${colorflag}"
+alias ll="ls -lFh ${colorflag}"
+alias lld="ls -l | grep ^d"
+alias rmf="rm -rf"
+alias ls="ls --color=auto"
 
 # General Commands {{{
-alias grep="grep --color=auto"
-alias fgrep="grep -F"
-alias egrep="grep -E"
+
+# Helpers
+alias grep='grep --color=auto'
+alias df='df -h' # disk free, in Gigabytes, not bytes
+alias du='du -h -c' # calculate disk usage for a folder
 
 # Prompt if overrite
 alias mv="mv -i"
 alias cp="cp -i"
 alias rm="rm -I"
-
-alias grepn="grep -s -I -n --color=auto"
 
 #NOTE this overrides an existing linux command called open
 alias open="file_open"
@@ -30,6 +52,9 @@ alias lc="ls -ltcr" # Sort by/show change time, most recent last
 alias lu="ls -ltur" # Sort by/show access time, most recent last
 
 alias ll="ls -alF"
+
+# File size
+alias fs="stat -f \"%z bytes\""
 
 # }}}
 
