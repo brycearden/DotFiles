@@ -1,24 +1,26 @@
 set nocompatible
 filetype off
 set rtp+=~/.vim/bundle/Vundle.vim/
+
+" Plugins {{{
 call vundle#begin()
 
 " let vundle manage vundle
-Plugin 'VundleVim/Vundle.vim'
+" Plugin 'VundleVim/Vundle.vim'
 
-Plugin 'chriskempson/base16-vim'
+" Plugin 'chriskempson/base16-vim'
 " Plugin 'scrooloose/nerdtree'
-Plugin 'Valloric/YouCompleteMe' " useful for vim autocomplete
+" Plugin 'Valloric/YouCompleteMe' " useful for vim autocomplete
 Plugin 'ryanoasis/vim-devicons'
 " Plugin 'Shougo/deoplete.nvim'
-" Plugin 'scrooloose/syntastic'
+Plugin 'scrooloose/syntastic'
 Plugin 'christoomey/vim-tmux-navigator'
 " Plugin 'benekastah/neomake'
 Plugin 'kien/ctrlp.vim'
 Plugin 'flazz/vim-colorschemes'
 " Plugin 'benmills/vimux'
 Plugin 'tpope/vim-commentary'
-Plugin 'rking/ag.vim'
+" Plugin 'rking/ag.vim'
 Plugin 'Raimondi/delimitMate'
 Plugin 'Yggdroot/indentLine'
 Plugin 'tpope/vim-surround'
@@ -27,8 +29,8 @@ Plugin 'vim-airline/vim-airline'
 Plugin 'vim-airline/vim-airline-themes'
 Plugin 'tpope/vim-fugitive'
 Plugin 'hynek/vim-python-pep8-indent'
-Plugin 'majutsushi/tagbar'
-Plugin 'vimwiki/vimwiki'
+" Plugin 'majutsushi/tagbar'
+" Plugin 'vimwiki/vimwiki'
 Plugin 'SirVer/ultisnips'
 Plugin 'honza/vim-snippets'
 " Better starting screen
@@ -43,6 +45,8 @@ Plugin 'tmux-plugins/vim-tmux-focus-events'
 " Used for HTML/CSS
 " Plug 'mattn/emmet-vim'
 call vundle#end()
+
+" }}}
 
 " Package Configuration {{{
 " {{{ CtrlP
@@ -314,17 +318,17 @@ set foldmethod=indent
 " file type specific settings
 if has('autocmd') && !exists('autocommands_loaded')
     let autocommands_loaded = 1
-    "autocmd FileType yaml setlocal ts=2 sts=2 sw=2 expandtab
-    "autocmd FileType make setlocal ts=8 sts=8 sw=8 noexpandtab
-    "autocmd FileType ruby setlocal ts=2 sts=2 sw=2 expandtab
-    "autocmd FileType html setlocal ts=4 sts=4 sw=4 noexpandtab indentkeys-=*<return>
-    "autocmd FileType jade setlocal ts=2 sts=2 sw=2 noexpandtab
-    "autocmd FileType *.md.js :call SyntasticReset<cr>
-    "autocmd FileType markdown,textile setlocal textwidth=0 wrapmargin=0 wrap spell
-    "autocmd FileType .xml exe ":silent %!xmllint --format --recover - 2>/dev/null"
-    "autocmd FileType crontab setlocal nobackup nowritebackup
-    ""autocmd WinEnter * setlocal cursorline
-    ""autocmd WinLeave * setlocal nocursorline
+    autocmd FileType yaml setlocal ts=2 sts=2 sw=2 expandtab
+    autocmd FileType make setlocal ts=8 sts=8 sw=8 noexpandtab
+    autocmd FileType ruby setlocal ts=2 sts=2 sw=2 expandtab
+    autocmd FileType html setlocal ts=4 sts=4 sw=4 noexpandtab indentkeys-=*<return>
+    autocmd FileType jade setlocal ts=2 sts=2 sw=2 noexpandtab
+    autocmd FileType *.md.js :call SyntasticReset<cr>
+    autocmd FileType markdown,textile setlocal textwidth=0 wrapmargin=0 wrap spell
+    autocmd FileType .xml exe ":silent %!xmllint --format --recover - 2>/dev/null"
+    autocmd FileType crontab setlocal nobackup nowritebackup
+    "autocmd WinEnter * setlocal cursorline
+    "autocmd WinLeave * setlocal nocursorline
 
     " automatically resize panes on resize
     autocmd VimResized * exe 'normal! \<c-w>='
@@ -604,11 +608,59 @@ vnoremap <silent><leader>r :call VisualSelection('replace')<CR>
 " 'super save' saves an assortment of windows that can be reopened with vim -S
 nnoremap <leader>ms :SaveSession<CR>
 " }}}
+"
+" Centaur Specific filetypes {{{
 
-" This is a (hopefully) temporary workaround for neovim#2048.
-if has('nvim')
-    nmap <bs> :<c-u>TmuxNavigateLeft<cr>
-endif
+augroup filetypedetect
+au BufNewFile,BufRead *.log             setf log
+au BufNewFile,BufRead ncv_cndebug.txt   setf log
+au BufNewFile,BufRead *.sum             setf log
+au BufNewFile,Bufread *.trk             setf trk
+au BufNewFile,Bufread *.list            setf trk
+au BufNewFile,Bufread *.citrus          setf citrus
+au BufNewFile,BufRead *.cpp             setf cpp
+au BufNewFile,BufRead *.h               setf cpp
+au BufNewFile,BufRead *.v               setf systemverilog
+au BufNewFile,BufRead *.pkg             setf systemverilog
+au BufNewFile,BufRead *.svi             setf systemverilog
+au BufNewFile,BufRead *.svh             setf systemverilog
+au BufNewFile,BufRead *.svp             setf systemverilog
+au BufNewFile,BufRead ncv.log           setf systemverilog
+au BufNewFile,BufRead vcs.log           setf systemverilog
+au BufNewFile,BufRead *.ic              setf icavp
+au BufNewFile,BufRead *.avp             setf icavp
+au BufNewFile,BufRead *.ylist           setf yaml
+au BufNewFile,BufRead Tupfile           setf tup
+au BufNewFile,BufRead *.tup             setf tup
+au BufNewFile,BufRead *.ypp             setf yacc
+" MAKO
+au BufNewFile,BufRead *.tv              setf systemverilog
+au BufNewFile,BufRead *.tsv             setf systemverilog
+au BufNewFile,BufRead *.tsvh            setf systemverilog
+au BufNewFile,BufRead *.tpkg            setf systemverilog
+au BufNewFile,BufRead *.tsmdl           setf smdl
+augroup END
+
+" " Verilog
+" let b:verilog_indent_modules = 1
+" au FileType verilog set tw=0
+" au FileType verilog set iskeyword+=$
+" au FileType verilog syn match PreProc "\v\$\{\w+\}"
+" au FileType verilog syn match PreProc "\v//(!!|\$\$)"
+
+
+" "System Verilog
+" au FileType systemverilog set iskeyword+=$,?
+" au FileType systemverilog let &efm  =  'ncvlog: *%t\,%*[A-Z0-9] (%f\,%l|%v): %m'
+" au FileType systemverilog let &efm .= ',ncelab: *%t\,%*[A-Z0-9] (%f\,%l|%v): %m'
+" au FileType systemverilog let &efm .= ',ncsim: *%t\,%*[A-Z0-9] (%f\,%l): %m'
+" au FileType systemverilog let &efm .= ',ncsim: *%t\,%*[A-Z0-9]: %m'
+" au FileType systemverilog set foldmarker={{{,}}}
+" au FileType systemverilog set foldmethod=marker
+
+" " MAKO
+" au BufRead,BufNewFile *.t*,*.t  let g:mako=1 | runtime! syntax/mako.vim
+" }}}
 
 " Last 5 lines are modelines
 set modelines=5
