@@ -17,6 +17,29 @@ function colors() {
     done
 }
 
+# Create a new directory and enter it
+function md() {
+    mkdir -p "$@" && cd "$@"
+}
+
+function hist() {
+    history | awk '{a[$2]++}END{for(i in a){print a[i] " " i}}' | sort -rn | head
+}
+
+# find shorthand
+function f() {
+    find . -name "$1"
+}
+
+# set the background color to light
+function light() {
+    export BACKGROUND="light" && reload!
+}
+
+function dark() {
+    export BACKGROUND="dark" && reload!
+}
+
 function confirm() {
     read -p "$1" -n 1 -r
     echo    # (optional) move to a new line
@@ -24,6 +47,20 @@ function confirm() {
     then
         exit 1
     fi
+}
+
+# get gzipped size
+function gz() {
+    echo "orig size    (bytes): "
+    cat "$1" | wc -c
+    echo "gzipped size (bytes): "
+    gzip -c "$1" | wc -c
+}
+
+# take this repo and copy it to somewhere else minus the .git stuff.
+function gitexport(){
+    mkdir -p "$1"
+    git archive master | tar -x -C "$1"
 }
 
 function exiterr() {
@@ -151,3 +188,42 @@ function s() {
 }
 
 function mktgz() { tar cvzf "${1%%/}.tar.gz"  "${1%%/}/"; }
+
+# TODO: figure out how to get the prompt to change color when in vi mode for bash
+# # urxvt (and family) accepts even #RRGGBB
+# INSERT_PROMPT="gray"
+# COMMAND_PROMPT="red"
+
+# # helper for setting color including all kinds of terminals
+# set_prompt_color() {
+#     if [[ $TERM = "linux" ]]; then
+#        # nothing
+#     elif [[ $TMUX != '' ]]; then
+#         printf '\033Ptmux;\033\033]12;%b\007\033\\' "$1"
+#     else
+#         echo -ne "\033]12;$1\007"
+#     fi
+# }
+
+# # change cursor color basing on vi mode
+# zle-keymap-select () {
+#     if [ $KEYMAP = vicmd ]; then
+#         set_prompt_color $COMMAND_PROMPT
+#     else
+#         set_prompt_color $INSERT_PROMPT
+#     fi
+# }
+
+# zle-line-finish() {
+#     set_prompt_color $INSERT_PROMPT
+# }
+
+# zle-line-init () {
+#     zle -K viins
+#     set_prompt_color $INSERT_PROMPT
+# }
+
+# zle -N zle-keymap-select
+# zle -N zle-line-init
+# zle -N zle-line-finish
+
